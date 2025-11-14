@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database save student details</title>
+</head>
+<body>
+  <h2> Student Details: </h2>
+  <table style="border: 1;">
+         <thead>
+            <tr>
+               <th>Username</th>
+               <th>Email</th>
+               <th>Title</th>
+               <th>Description</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for student in studentData %}
+               <tr>
+                  <td>{{ student.username }}</td>
+                  <td>{{ student.email }}</td>
+                  <td>{{ student.title }}</td>
+                  <td>{{ student.description }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+</body>
+</html>
