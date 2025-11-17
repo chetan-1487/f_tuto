@@ -7,8 +7,11 @@
 </head>
 <body>
   <h1>Update student details form: </h1>
-  <form>
-    
+  <form action="{{ url_for('update_data', id=student.id) }}" method="POST">
+    <p>Username<input type="text" name="updateUsername" value="{{student.username}}" placeholder="username" /></p>
+    <p>Title<input type="text" name="updateTitle" value="{{student.title}}" placeholder="title" /></p>
+    <p>Description <input type="text" name="updateDesc" value="{{student.description}}" placeholder="description"/></p>
+    <button>submit</button>
   </form>
 </body>
 </html>

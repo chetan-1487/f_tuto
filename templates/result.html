@@ -7,13 +7,14 @@
 </head>
 <body>
   <h2> Student Details: </h2>
-  <table style="border: 1;">
+    <table border="1" style="border-collapse: collapse; padding:5px;">
          <thead>
             <tr>
                <th>Username</th>
                <th>Email</th>
                <th>Title</th>
                <th>Description</th>
+               <th>Action</th>
             </tr>
          </thead>
 
@@ -24,6 +25,10 @@
                   <td>{{ student.email }}</td>
                   <td>{{ student.title }}</td>
                   <td>{{ student.description }}</td>
+                  <td>
+                     <a href="/update/{{student.id}}" type="button">Update</a>
+                     <a href="/delete/{{student.id}}" type="button">Delete</a>
+                  </td>
                </tr>
             {% endfor %}
          </tbody>
