@@ -1,6 +1,5 @@
 from flask import Flask
 from app.routes.users import user_bp
-from app.routes.products import product_bp
 from .config import Config
 from app.extension import db, migrate, jwt
 
@@ -13,7 +12,6 @@ migrate.init_app(app, db)
 jwt.init_app(app)
 
 app.register_blueprint(user_bp)
-app.register_blueprint(product_bp, url_prefix="/product")
 
 if __name__ == "__main__":
     app.debug=True

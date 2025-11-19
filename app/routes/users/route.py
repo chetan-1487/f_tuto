@@ -97,5 +97,5 @@ def result():
 @user_bp.route("/logout", methods=["GET"])
 def logout():
     response = make_response(redirect(url_for('users.login')))
-    unset_jwt_cookies(response)   # This removes access + refresh cookies
+    unset_jwt_cookies(response) 
     return response
