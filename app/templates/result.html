@@ -6,32 +6,34 @@
   <title>Database save student details</title>
 </head>
 <body>
-  <h2> Student Details: </h2>
+  <h2> User Details: </h2>
     <table border="1" style="border-collapse: collapse; padding:5px;">
          <thead>
             <tr>
                <th>Username</th>
                <th>Email</th>
-               <th>Title</th>
-               <th>Description</th>
+               <th>Address</th>
+               <th>Pincode</th>
                <th>Action</th>
             </tr>
          </thead>
 
          <tbody>
-            {% for student in studentData %}
+            {% for user in userData %}
                <tr>
-                  <td>{{ student.username }}</td>
-                  <td>{{ student.email }}</td>
-                  <td>{{ student.title }}</td>
-                  <td>{{ student.description }}</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.address }}</td>
+                  <td>{{ user.pincode }}</td>
                   <td>
-                     <a href="/update/{{student.id}}" type="button">Update</a>
-                     <a href="/delete/{{student.id}}" type="button">Delete</a>
+                     <a href="/update/{{user.id}}" type="button">Update</a>
                   </td>
                </tr>
             {% endfor %}
             <b><a href="/" type="button">Add more students</a></b>
+            <div>
+               <b><a href="/logout" type="button">Logout</a></b>
+            </div>
          </tbody>
       </table>
 </body>

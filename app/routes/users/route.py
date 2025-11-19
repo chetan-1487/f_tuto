@@ -1,10 +1,9 @@
 from flask import Blueprint, request, redirect, render_template, url_for, flash, make_response
 from app.models import User
 from app.extension import db, bcrypt
-from app.jwt import create_jwt
+from flask_jwt_extended import create_access_token, jwt_required, unset_jwt_cookies
 
 user_bp = Blueprint("users",__name__,template_folder=".../templates", static_folder="../static")
-
 
 @user_bp.route("/")
 def form():
@@ -53,10 +52,10 @@ def login():
             return redirect(url_for("users.login"))
 
         if bcrypt.check_password_hash(user.password_hash, password):
-            token = create_jwt({"id": user.id, "email": user.email})
+            token = create_access_token(identity= str(user.id), additional_claims={"email":user.email})
             response = make_response(redirect(url_for("users.result")))
             response.set_cookie(
-                "token",
+                "access_token_cookie",
                 token,
                 httponly=True,    # protects against JavaScript access
                 samesite="Lax",   # prevents CSRF
@@ -65,10 +64,38 @@ def login():
             return response
 
         flash("Incorrect email or password")
-        return redirect(url_for("users.login"))
+        return redirect(url_for("users.result"))
 
     return render_template("login.html")
 
+
+@user_bp.route("/update/<int:id>", methods=["GET","POST"])
+def update(id):
+    userDetail= User.query.get_or_404(id)
+    if request.method == "POST":
+        address = request.form.get("updateAddress")
+        pincode=request.form.get("updatePincode")
+        
+        userDetail = User.query.filter_by(id=id).first()
+        userDetail.address = address
+        userDetail.pincode = pincode
+        db.session.add(userDetail)
+        db.session.commit()
+    
+        return redirect(url_for("users.result"))
+    
+    return render_template("update.html", user=userDetail)
+
+
+
 @user_bp.route("/result", methods=["GET"])
+@jwt_required()
 def result():
-    return render_template("result.html", studentData=User.query.all())
+    return render_template("result.html", userData=User.query.all())
+
+
+@user_bp.route("/logout", methods=["GET"])
+def logout():
+    response = make_response(redirect(url_for('users.login')))
+    unset_jwt_cookies(response)   # This removes access + refresh cookies
+    return response
