@@ -6,15 +6,17 @@
   <title>CRUD</title>
 </head>
 <body>
-  <h1>Student Form :</h1>
-  <form action="/create" method="POST">
+  <h1>Signup User :</h1>
+  <form action="/signup" method="POST">
     <p>USERNAME <input type="text" name="username" placeholder="username" /></p>
     <p>EMAIL <input type="email" name="email" placeholder="user email" /></p>
     <p>PASSWORD <input type="password" name="password" placeholder="password" /></p>
-    <p>Title <input type="text" name="title" placeholder="title"  /></p>
-    <p>Description <input type="text" name="description" placeholder="description" /></p>
+    <p>ADDRESS <input type="text" name="address" placeholder="address"  /></p>
+    <p>PINCODE <input type="number" name="pincode" placeholder="pincode" /></p>
     
     <button>submit</button>
+    <br>
+    <a href="/login" type="button">Login User</a>
   </form>
 </body>
 </html>

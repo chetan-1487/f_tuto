@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+</head>
+<body>
+  <h1>Login user</h1>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div style="
+        padding: 10px;
+        background-color: #f44336;
+        color: white;
+        margin-bottom: 15px;
+        border-radius: 5px;">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <form action="{{url_for('users.login')}}" method="POST">
+    <p>EMAIL <input type="email" name="email" placeholder="user email" /></p>
+    <p>PASSWORD <input type="password" name="password" placeholder="password" /></p>
+    <button>submit</button>
+    <a href="/signup" type="button">Signup user</a>
+  </form>
+</body>
+</html>

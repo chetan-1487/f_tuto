@@ -1,0 +1,1 @@
+from app.routes.products.route import product_bp
