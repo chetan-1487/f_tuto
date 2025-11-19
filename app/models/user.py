@@ -1,4 +1,4 @@
-from ..utils import db
+from ..extension import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
@@ -9,7 +9,7 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    title = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(100))
     createdAt = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     updatedAt = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now())

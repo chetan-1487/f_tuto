@@ -1,1 +1,1 @@
-from routes.users.routes import user_bp
+from app.routes.users.route import user_bp

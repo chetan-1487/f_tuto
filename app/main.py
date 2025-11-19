@@ -1,14 +1,16 @@
 from flask import Flask
-from routes.users import user_bp
+from app.routes.users import user_bp
 from .config import Config
+from app.extension import db, migrate
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = Config.Database_URL
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = Config.SQLALCHEMY_TRACK_MODIFICATIONS
-app.secret_key = Config.Secret_key 
+app.config.from_object(Config)
 
-app.register_blueprint(user_bp, url_prefix="/users")
+db.init_app(app)
+migrate.init_app(app, db)
+
+app.register_blueprint(user_bp)
 
 if __name__ == "__main__":
     app.debug=True

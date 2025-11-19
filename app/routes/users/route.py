@@ -1,6 +1,7 @@
 from flask import Blueprint, request, redirect, render_template, url_for, flash
 from app.models import User
-from utils import db
+from app.extension import db
+from app.jwt import create_jwt, decode_jwt
 
 user_bp = Blueprint("users",__name__,template_folder=".../templates", static_folder="../static")
 
@@ -9,7 +10,7 @@ user_bp = Blueprint("users",__name__,template_folder=".../templates", static_fol
 def form():
     return render_template("index.html")
 
-@user_bp.route("/create")
+@user_bp.route("/create", methods=["POST"])
 def create_student():
   if request.method=="POST":
 
@@ -22,12 +23,17 @@ def create_student():
     if not username or not email or not password:
         flash("Enter all details..")
 
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        flash("Email already exists! Please use a different email.")
+        return redirect(url_for("users.form"))
+
     user_details = User(username, email, password, title, description)
     db.session.add(user_details)
     db.session.commit()
 
     flash("Record inserted successfully")
-    return redirect(url_for("result"))
+    return redirect(url_for("users.result"))
   return render_template("index.html")
 
 @user_bp.route("/update/<int:id>", methods=["GET","POST"])
@@ -44,7 +50,7 @@ def update_data(id):
         db.session.add(studentDetail)
         db.session.commit()
     
-        return redirect(url_for("result"))
+        return redirect(url_for("users.result"))
     
     return render_template("update.html", student=studentDetail)
 
@@ -56,7 +62,7 @@ def delete_student(id):
   
   db.session.delete(user)
   db.session.commit()
-  return redirect(url_for("result"))
+  return redirect(url_for("users.result"))
 
 @user_bp.route("/result", methods=["GET"])
 def result():
